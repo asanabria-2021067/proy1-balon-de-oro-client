@@ -1,7 +1,8 @@
 import { getPlayers, getPlayerById, createPlayer, updatePlayer, deletePlayer, getCeremonies } from '../core/api.js';
-import { setState } from '../core/state.js';
+import { setState, getState } from '../core/state.js';
 import { renderPlayerGrid, renderPlayerModal, renderPagination, showErrorState } from '../views/player.view.js';
 import { showToast } from '../views/toast.view.js';
+import { loadCeremony } from './ceremony.ctrl.js';
 
 const pagination = { page: 1, limit: 12, total: 0, totalPages: 0 };
 let searchQuery = '';
@@ -49,6 +50,11 @@ export async function handleCreatePlayer(formData) {
         showToast('Jugador creado con éxito', 'success');
         closeModal();
         loadPlayers();
+
+        const state = getState();
+        if (state.currentView === 'ceremonies' && state.selectedYear) {
+            await loadCeremony(state.selectedYear);
+        }
     } catch (error) {
         showToast(error.message, 'error');
     }
@@ -60,6 +66,11 @@ export async function handleUpdatePlayer(id, formData) {
         showToast('Jugador actualizado con éxito', 'success');
         closeModal();
         loadPlayers();
+
+        const state = getState();
+        if (state.currentView === 'ceremonies' && state.selectedYear) {
+            await loadCeremony(state.selectedYear);
+        }
     } catch (error) {
         showToast(error.message, 'error');
     }
