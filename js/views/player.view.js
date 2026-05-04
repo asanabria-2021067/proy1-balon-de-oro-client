@@ -49,89 +49,140 @@ export function renderPlayerModal(player, ceremonies, onSubmit) {
     const years = ceremonies ? ceremonies.map(c => c.year).sort((a, b) => b - a) : [];
 
     modalBody.innerHTML = `
-        <h2 style="margin-bottom: 1.5rem; color: var(--color-primary);">${player ? 'Editar Jugador' : 'Agregar Jugador'}</h2>
+        <div class="modal__header">
+            <h2 class="modal__title">${player ? 'Editar Jugador' : 'Agregar Jugador'}</h2>
+            <p class="modal__subtitle">Completa los datos del jugador</p>
+        </div>
+
         <form id="player-form" class="form">
-            <div class="form-grid-responsive">
-                <div class="form__group">
-                    <label class="form__label">Nombre</label>
-                    <input type="text" name="name" class="form__input" value="${player ? player.name : ''}" required>
-                </div>
-                <div class="form__group">
-                    <label class="form__label">Nacionalidad</label>
-                    <input type="text" name="nationality" class="form__input" value="${player ? player.nationality : ''}" required>
-                </div>
-            </div>
-
-            <div class="form-grid-responsive">
-                <div class="form__group">
-                    <label class="form__label">Club</label>
-                    <input type="text" name="club" class="form__input" value="${player ? player.club : ''}" required>
-                </div>
-                <div class="form__group">
-                    <label class="form__label">Posición</label>
-                    <select name="position" class="form__select" required>
-                        <option value="GK" ${player?.position === 'GK' ? 'selected' : ''}>GK</option>
-                        <option value="DEF" ${player?.position === 'DEF' ? 'selected' : ''}>DEF</option>
-                        <option value="MID" ${player?.position === 'MID' ? 'selected' : ''}>MID</option>
-                        <option value="FWD" ${player?.position === 'FWD' ? 'selected' : ''}>FWD</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form__group">
-                <label class="form__label">Foto (URL o Archivo)</label>
-                <input type="text" name="photoUrl" class="form__input" placeholder="https://..." value="${player?.photoUrl || ''}" style="margin-bottom: 10px;">
-                <input type="file" name="photo" class="form__input" accept="image/*" id="photo-input">
-                <div id="photo-preview" class="form__preview">
-                    ${player?.photoUrl ? `<img src="${player.photoUrl}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;" onerror="this.src='assets/silhouette.svg'">` : ''}
-                </div>
-            </div>
-
-            <div style="background: rgba(245, 197, 24, 0.05); padding: 15px; border-radius: 8px; border: 1px dashed var(--color-primary); margin-top: 10px;">
-                <h3 style="font-size: 0.9rem; color: var(--color-primary); margin-bottom: 10px;">Asignar Nominación</h3>
+            <div class="form__section">
+                <h3 class="form__section-title">Información Básica</h3>
                 <div class="form-grid-responsive">
-                    <div class="form__group" style="margin-bottom: 0;">
-                        <label class="form__label">Año</label>
+                    <div class="form__group">
+                        <label class="form__label">Nombre <span class="form__required">*</span></label>
+                        <input type="text" name="name" class="form__input" placeholder="Ej: Lionel Messi" value="${player ? player.name : ''}" required>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Nacionalidad <span class="form__required">*</span></label>
+                        <input type="text" name="nationality" class="form__input" placeholder="Ej: Argentina" value="${player ? player.nationality : ''}" required>
+                    </div>
+                </div>
+
+                <div class="form-grid-responsive">
+                    <div class="form__group">
+                        <label class="form__label">Club <span class="form__required">*</span></label>
+                        <input type="text" name="club" class="form__input" placeholder="Ej: Inter Miami" value="${player ? player.club : ''}" required>
+                    </div>
+                    <div class="form__group">
+                        <label class="form__label">Posición <span class="form__required">*</span></label>
+                        <select name="position" class="form__select" required>
+                            <option value="" disabled ${!player ? 'selected' : ''}>Seleccionar posición</option>
+                            <option value="GK" ${player?.position === 'GK' ? 'selected' : ''}>Portero (GK)</option>
+                            <option value="DEF" ${player?.position === 'DEF' ? 'selected' : ''}>Defensa (DEF)</option>
+                            <option value="MID" ${player?.position === 'MID' ? 'selected' : ''}>Mediocampista (MID)</option>
+                            <option value="FWD" ${player?.position === 'FWD' ? 'selected' : ''}>Delantero (FWD)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form__section">
+                <h3 class="form__section-title">Fotografía</h3>
+                <div class="form__group">
+                    <label class="form__label">URL de la foto</label>
+                    <input type="text" name="photoUrl" class="form__input" placeholder="https://ejemplo.com/foto.jpg" value="${player?.photoUrl || ''}">
+                </div>
+                <div class="form__divider">
+                    <span>o</span>
+                </div>
+                <div class="form__group">
+                    <label class="form__label">Subir archivo</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" name="photo" class="file-input" accept="image/*" id="photo-input">
+                        <label for="photo-input" class="file-input-label">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span>Seleccionar imagen</span>
+                        </label>
+                    </div>
+                </div>
+                <div id="photo-preview" class="form__preview">
+                    ${player?.photoUrl ? `<img src="${player.photoUrl}" class="preview-image" onerror="this.src='assets/silhouette.svg'">` : ''}
+                </div>
+            </div>
+
+            <div class="form__section form__section--nomination">
+                <div class="nomination-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    <h3 class="form__section-title">Asignar Nominación</h3>
+                </div>
+                <p class="nomination-description">Opcional: agrega al jugador a una ceremonia del Balón de Oro</p>
+
+                <div class="form-grid-responsive">
+                    <div class="form__group">
+                        <label class="form__label">Año de ceremonia</label>
                         <select name="nominationYear" class="form__select">
-                            <option value="">-- No asignar --</option>
+                            <option value="">Sin nominación</option>
                             ${years.map(y => `<option value="${y}">${y}</option>`).join('')}
                         </select>
                     </div>
-                    <div class="form__group" style="margin-bottom: 0;">
-                        <label class="form__label">Puesto (1-10)</label>
-                        <input type="number" name="nominationRank" class="form__input" min="1" max="10">
+                    <div class="form__group">
+                        <label class="form__label">Puesto en ranking</label>
+                        <input type="number" name="nominationRank" class="form__input" placeholder="1-10" min="1" max="10">
                     </div>
                 </div>
-                <p style="font-size: 0.75rem; color: var(--color-muted); margin-top: 8px;">* Si el jugador ya está en este año, se actualizará su puesto. Si el puesto está ocupado por otro, verás un error.</p>
+                <div class="nomination-note">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>Si el jugador ya existe en ese año, se actualizará su posición</span>
+                </div>
             </div>
 
             ${player?.nominations && player.nominations.length > 0 ? `
-                <div style="margin-top: 15px;">
-                    <h3 style="font-size: 0.9rem; color: var(--color-muted); margin-bottom: 10px;">Nominaciones Actuales</h3>
-                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <div class="form__section form__section--current-nominations">
+                    <h3 class="form__section-title">Nominaciones Actuales</h3>
+                    <div class="nominations-list">
                         ${player.nominations.map(n => `
-                            <span class="badge" style="background: var(--bg-card); border: 1px solid var(--color-border);">
-                                ${n.year}: #${n.rank}
+                            <span class="nomination-badge">
+                                <span class="nomination-badge__year">${n.year}</span>
+                                <span class="nomination-badge__rank">#${n.rank}</span>
                             </span>
                         `).join('')}
                     </div>
                 </div>
             ` : ''}
 
-            <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 1.5rem;">Guardar Jugador</button>
+            <button type="submit" class="btn btn--primary btn--submit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                ${player ? 'Actualizar Jugador' : 'Guardar Jugador'}
+            </button>
         </form>
     `;
 
     const form = document.getElementById('player-form');
     const photoInput = document.getElementById('photo-input');
     const photoPreview = document.getElementById('photo-preview');
+    const fileLabel = document.querySelector('.file-input-label span');
 
     photoInput.onchange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            fileLabel.textContent = file.name;
             const reader = new FileReader();
             reader.onload = (re) => {
-                photoPreview.innerHTML = `<img src="${re.target.result}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">`;
+                photoPreview.innerHTML = `<img src="${re.target.result}" class="preview-image">`;
             };
             reader.readAsDataURL(file);
         }

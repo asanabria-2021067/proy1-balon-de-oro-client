@@ -359,6 +359,7 @@
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    padding: 20px;
 }
 
 .modal__backdrop {
@@ -367,43 +368,131 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.85);
+    backdrop-filter: blur(4px);
 }
 
 .modal__content {
     background-color: var(--bg-surface);
     border-radius: var(--radius);
-    width: 95%;
-    max-width: 600px;
-    padding: 2.5rem;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 0;
     position: relative;
     border: 1px solid var(--color-border);
     z-index: 1001;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.modal__content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal__content::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+.modal__content::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+.modal__content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+.modal__header {
+    padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background: linear-gradient(135deg, rgba(245, 197, 24, 0.05) 0%, transparent 100%);
+}
+
+.modal__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+}
+
+.modal__subtitle {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    font-weight: 400;
 }
 
 .modal__close {
     position: absolute;
-    top: 1rem;
+    top: 1.25rem;
     right: 1.5rem;
     background: none;
     border: none;
-    color: var(--color-text);
-    font-size: 2rem;
+    color: var(--color-muted);
+    font-size: 1.75rem;
     cursor: pointer;
+    transition: var(--transition);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.modal__close:hover {
+    color: var(--color-primary);
+    background: rgba(245, 197, 24, 0.1);
 }
 
 .modal--hidden { display: none; }
 
 /* Form */
+.form {
+    padding: 2.5rem;
+}
+
+.form__section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.form__section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form__section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .form__group {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.25rem;
+}
+
+.form__group:last-child {
+    margin-bottom: 0;
 }
 
 .form__label {
     display: block;
-    margin-bottom: 0.5rem;
-    color: var(--color-muted);
+    margin-bottom: 0.6rem;
+    color: var(--color-text);
     font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.form__required {
+    color: #ef4444;
+    font-weight: 700;
 }
 
 .form__input, .form__select, .form__textarea {
@@ -411,20 +500,62 @@
     background-color: var(--bg-primary);
     border: 1px solid var(--color-border);
     color: white;
-    padding: 0.8rem;
-    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
     font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form__input:hover, .form__select:hover, .form__textarea:hover {
+    border-color: rgba(245, 197, 24, 0.3);
 }
 
 .form__input:focus, .form__select:focus, .form__textarea:focus {
     outline: none;
     border-color: var(--color-primary);
+    background-color: rgba(245, 197, 24, 0.03);
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.1);
+}
+
+.form__input::placeholder {
+    color: var(--color-muted);
+    opacity: 0.6;
+}
+
+.form__divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.25rem 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+}
+
+.form__divider::before,
+.form__divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.form__divider span {
+    padding: 0 1rem;
 }
 
 .form__preview {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
+}
+
+.preview-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--color-border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 /* Star Rating */
@@ -603,13 +734,170 @@
 .form-grid-responsive {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 1rem;
 }
 
 @media (max-width: 640px) {
     .form-grid-responsive {
         grid-template-columns: 1fr;
     }
+}
+
+/* File Input */
+.file-input-wrapper {
+    position: relative;
+}
+
+.file-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0.85rem 1.25rem;
+    background: var(--bg-primary);
+    border: 2px dashed var(--color-border);
+    border-radius: 8px;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.file-input-label:hover {
+    border-color: var(--color-primary);
+    background: rgba(245, 197, 24, 0.05);
+    color: var(--color-primary);
+}
+
+.file-input:focus + .file-input-label {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.1);
+}
+
+.file-input-label svg {
+    flex-shrink: 0;
+}
+
+/* Nomination Section */
+.form__section--nomination {
+    background: linear-gradient(135deg, rgba(245, 197, 24, 0.03) 0%, rgba(245, 197, 24, 0.01) 100%);
+    border: 1px solid rgba(245, 197, 24, 0.15);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.nomination-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.nomination-header svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.nomination-description {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+}
+
+.nomination-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(245, 197, 24, 0.05);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+}
+
+.nomination-note svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Current Nominations */
+.form__section--current-nominations {
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+}
+
+.nominations-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nomination-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-primary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.nomination-badge:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+.nomination-badge__year {
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+.nomination-badge__rank {
+    color: var(--color-primary);
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    background: rgba(245, 197, 24, 0.15);
+    border-radius: 4px;
+}
+
+/* Submit Button */
+.btn--submit {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(245, 197, 24, 0.2);
+}
+
+.btn--submit:hover {
+    box-shadow: 0 6px 16px rgba(245, 197, 24, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn--submit svg {
+    flex-shrink: 0;
 }
 
 /* Utilities */
@@ -627,5 +915,40 @@
     .stat-bar-wrapper { display: none; }
     .stats-cards {
         grid-template-columns: 1fr;
+    }
+    .modal__header {
+        padding: 1.5rem 1.75rem 1.25rem;
+    }
+    .modal__title {
+        font-size: 1.5rem;
+    }
+    .form {
+        padding: 1.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal {
+        padding: 10px;
+    }
+    .modal__content {
+        max-height: 95vh;
+    }
+    .modal__header {
+        padding: 1.25rem 1.5rem 1rem;
+    }
+    .modal__title {
+        font-size: 1.35rem;
+    }
+    .form {
+        padding: 1.5rem;
+    }
+    .form__section {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    .btn--submit {
+        padding: 0.9rem 1.25rem;
+        font-size: 0.95rem;
     }
 }
