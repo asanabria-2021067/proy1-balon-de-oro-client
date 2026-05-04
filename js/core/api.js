@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://proy1-balon-de-oro-api.vercel.app/api";
 
 export async function getCeremonies() {
     try {
