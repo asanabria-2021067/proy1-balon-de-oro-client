@@ -1,6 +1,17 @@
 import { getCeremonies, getCeremonyByYear } from '../core/api.js';
 import { showToast } from '../views/toast.view.js';
 
+async function loadJSZip() {
+    if (window.JSZip) return window.JSZip;
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        script.onload = () => resolve(window.JSZip);
+        script.onerror = () => reject(new Error('Failed to load JSZip'));
+        document.head.appendChild(script);
+    });
+}
+
 export async function exportToCSV() {
     showToast('Preparando exportación CSV...', 'success');
     try {
@@ -56,6 +67,7 @@ export async function exportToCSV() {
 export async function exportToExcel() {
     showToast('Preparando exportación Excel...', 'success');
     try {
+        const JSZip = await loadJSZip();
         const zip = new JSZip();
 
         const ceremoniesList = await getCeremonies();
