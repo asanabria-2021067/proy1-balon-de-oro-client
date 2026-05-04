@@ -55,7 +55,7 @@ export function renderNominationCard(nomination) {
         <div class="card ${rankStyle.className}" style="cursor: pointer;">
             <div class="card__badge">${rankStyle.badge}</div>
             <div class="card__content">
-                <img src="${player.photoUrl || 'assets/silhouette.svg'}" alt="${player.name}" class="card__photo">
+                <img src="${player.photoUrl || 'assets/silhouette.svg'}" alt="${player.name}" class="card__photo" onerror="this.src='assets/silhouette.svg'">
                 <h3 class="card__name">${player.name}</h3>
                 <p class="card__info">${player.club} | ${player.nationality}</p>
                 <span class="badge badge--${player.position.toLowerCase()}">${player.position}</span>

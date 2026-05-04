@@ -29,13 +29,13 @@ export function renderPlayerCard(player) {
     return `
         <div class="card">
             <div class="card__content">
-                <img src="${player.photoUrl || 'assets/silhouette.svg'}" alt="${player.name}" class="card__photo">
+                <img src="${player.photoUrl || 'assets/silhouette.svg'}" alt="${player.name}" class="card__photo" onerror="this.src='assets/silhouette.svg'">
                 <h3 class="card__name">${player.name}</h3>
                 <p class="card__info">${player.club} | ${player.nationality}</p>
                 <span class="badge badge--${player.position.toLowerCase()}">${player.position}</span>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button class="btn btn--edit" title="Editar">✏️</button>
-                    <button class="btn btn--delete" title="Eliminar">🗑️</button>
+                    <button class="btn btn--edit" title="Editar">Editar</button>
+                    <button class="btn btn--delete" title="Eliminar">Eliminar</button>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@ export function renderPlayerModal(player, onSubmit) {
                 <label class="form__label">Foto</label>
                 <input type="file" name="photo" class="form__input" accept="image/*" id="photo-input">
                 <div id="photo-preview" class="form__preview">
-                    ${player?.photoUrl ? `<img src="${player.photoUrl}" style="width: 100px; border-radius: 50%;">` : ''}
+                    ${player?.photoUrl ? `<img src="${player.photoUrl}" style="width: 100px; border-radius: 50%;" onerror="this.src='assets/silhouette.svg'">` : ''}
                 </div>
             </div>
             <button type="submit" class="btn btn--primary" style="width: 100%; margin-top: 1rem;">Guardar</button>

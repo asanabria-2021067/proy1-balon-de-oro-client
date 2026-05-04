@@ -4,12 +4,24 @@ export function renderRatingModal(ratingData, onSubmit) {
     const modalContainer = document.getElementById('modal-container');
     const modalBody = document.getElementById('modal-body');
 
+    const player = ratingData.player || {};
+    const playerHtml = player.name ? `
+        <div class="nomination-detail__player" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <img src="${player.photoUrl || 'assets/silhouette.svg'}"
+                 alt="${player.name}"
+                 style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background-color: #1a1a2e;"
+                 onerror="this.src='assets/silhouette.svg'">
+            <div>
+                <h3 style="margin: 0; color: var(--color-text);">${player.name}</h3>
+                <p style="margin: 0; color: var(--color-muted); font-size: 0.9rem;">${player.club || ''} | ${player.nationality || ''}</p>
+            </div>
+        </div>
+    ` : `<p>Cargando información del jugador...</p>`;
+
     modalBody.innerHTML = `
         <div class="nomination-detail">
             <h2 style="color: var(--color-primary); margin-bottom: 1rem;">Detalle de Nominación</h2>
-            <div class="nomination-detail__player">
-                <p>Cargando información del jugador...</p>
-            </div>
+            ${playerHtml}
             <hr style="border: none; border-top: 1px solid var(--color-border); margin: 1.5rem 0;">
             <h3>¿Mereció este puesto?</h3>
             <div class="star-rating" id="star-rating-widget">
