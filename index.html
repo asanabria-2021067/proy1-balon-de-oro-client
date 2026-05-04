@@ -17,6 +17,7 @@
         <nav class="navbar__center">
             <button id="nav-ceremonies" class="navbar__link navbar__link--active">Ceremonias</button>
             <button id="nav-players" class="navbar__link">Jugadores</button>
+            <button id="nav-stats" class="navbar__link">Estadísticas</button>
         </nav>
         <div class="navbar__right">
             <button id="btn-export-csv" class="btn btn--outline">Exportar CSV</button>
@@ -30,7 +31,7 @@
             </div>
             
             <div class="container">
-                <div id="year-selector" class="year-tabs">
+                <div id="year-selector" class="year-selector">
                 </div>
                 <div id="top-10-grid" class="grid">
                 </div>
@@ -47,7 +48,11 @@
                 </div>
                 <div id="players-grid" class="grid">
                 </div>
+                <div id="players-pagination"></div>
             </div>
+        </section>
+
+        <section id="stats-view" class="view view--hidden">
         </section>
     </main>
 
