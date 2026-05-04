@@ -120,3 +120,16 @@ export async function getNominationRating(nominationId) {
         throw error;
     }
 }
+
+export async function getCountryStats() {
+    try {
+        const res = await fetch(`${API_URL}/stats/countries`);
+        if (!res.ok) {
+            const err = await res.json();
+            throw new Error(err.error || 'Error al obtener estadísticas');
+        }
+        return res.json();
+    } catch (err) {
+        throw err;
+    }
+}
