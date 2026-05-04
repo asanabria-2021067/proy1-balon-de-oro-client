@@ -6,7 +6,7 @@ Historical Balón de Oro tracker. Vanilla HTML + CSS + JS frontend, no framework
 
 - **HTML5, CSS3, JavaScript ES6+** (vanilla, no frameworks)
 - **Native fetch()** for API calls
-- **JSZip 3.10.1** from cdnjs (only for Excel export)
+- **JSZip 3.10.1** dynamically loaded (only for Excel export)
 - **Google Fonts** (Inter)
 
 ## How to Run Locally
@@ -20,7 +20,7 @@ python3 -m http.server 8080
 ```
 Then open http://localhost:8080
 
-**Important:** Update `API_URL` in `js/core/api.js` to point to your backend.
+**Important:** Production API is at `https://proy1-balon-de-oro-api.vercel.app/api` (already configured in `js/core/api.js`).
 
 ## Features
 
