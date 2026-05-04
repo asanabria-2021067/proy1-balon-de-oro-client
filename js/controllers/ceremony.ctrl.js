@@ -1,6 +1,6 @@
-import { getCeremonyByYear } from '../core/api.js';
+import { getCeremonyByYear, getCeremonies } from '../core/api.js';
 import { setState, getState } from '../core/state.js';
-import { transformCeremony, generateYearRange } from '../models/ceremony.model.js';
+import { transformCeremony } from '../models/ceremony.model.js';
 import { renderHero, renderYearSelector, renderTop10Grid, showErrorState } from '../views/ceremony.view.js';
 import { renderRatingModal } from '../controllers/rating.ctrl.js';
 
@@ -21,18 +21,31 @@ export async function loadCeremony(year) {
     }
 }
 
-export function handleYearChange(year) {
-    loadCeremony(year);
+export async function handleYearChange(year) {
+    setState('selectedYear', year);
+    const availableYears = getState().availableYears || [];
+    renderYearSelector(availableYears, year, handleYearChange);
+    await loadCeremony(year);
 }
 
 export function handleCardClick(nominationId) {
     renderRatingModal(nominationId);
 }
 
-export function initCeremoniesView() {
-    const years = generateYearRange();
-    const selectedYear = getState().selectedYear;
+export async function initCeremoniesView() {
+    try {
+        const ceremonies = await getCeremonies();
+        const years = ceremonies
+            .map(ceremony => ceremony.year)
+            .sort((a, b) => a - b);
 
-    renderYearSelector(years, selectedYear, handleYearChange);
-    loadCeremony(selectedYear);
+        setState('availableYears', years);
+        const selectedYear = getState().selectedYear || 2025;
+
+        renderYearSelector(years, selectedYear, handleYearChange);
+        await loadCeremony(selectedYear);
+    } catch (error) {
+        console.error('Error loading ceremonies:', error);
+        showErrorState();
+    }
 }
