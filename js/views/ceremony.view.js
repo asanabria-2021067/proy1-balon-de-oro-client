@@ -19,16 +19,24 @@ export function renderYearSelector(years, activeYear, onYearClick) {
     yearTabsContainer.innerHTML = '';
 
     years.forEach(year => {
-        const tab = document.createElement('div');
-        tab.className = `year-tabs__tab ${year === activeYear ? 'year-tabs__tab--active' : ''}`;
-        tab.textContent = year;
-        tab.onclick = () => onYearClick(year);
-        yearTabsContainer.appendChild(tab);
-
-        if (year === activeYear) {
-            tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }
+        const pill = document.createElement('div');
+        pill.className = year === activeYear ? 'year-pill year-pill--active' : 'year-pill';
+        pill.setAttribute('data-year', year);
+        pill.textContent = year;
+        pill.onclick = () => onYearClick(year);
+        yearTabsContainer.appendChild(pill);
     });
+
+    setTimeout(() => {
+        const activePill = document.querySelector('.year-pill--active');
+        if (activePill) {
+            activePill.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+    }, 0);
 }
 
 export function renderTop10Grid(nominations, onCardClick) {
