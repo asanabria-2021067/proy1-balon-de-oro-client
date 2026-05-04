@@ -44,12 +44,18 @@ export function renderTop10Grid(nominations, onCardClick) {
     gridContainer.innerHTML = '';
 
     if (nominations && nominations.length > 0) {
-        nominations.sort((a, b) => a.rank - b.rank).forEach(nom => {
-            const cardEl = document.createElement('div');
-            cardEl.innerHTML = renderNominationCard(nom);
-            cardEl.onclick = () => onCardClick(nom.nominationId);
-            gridContainer.appendChild(cardEl.firstElementChild);
-        });
+        const top10 = nominations.filter(nom => nom.rank >= 1 && nom.rank <= 10);
+
+        if (top10.length > 0) {
+            top10.sort((a, b) => a.rank - b.rank).forEach(nom => {
+                const cardEl = document.createElement('div');
+                cardEl.innerHTML = renderNominationCard(nom);
+                cardEl.onclick = () => onCardClick(nom.nominationId);
+                gridContainer.appendChild(cardEl.firstElementChild);
+            });
+        } else {
+            showEmptyState('No hay nominaciones en el top 10 para este año.');
+        }
     } else {
         showEmptyState('No hay nominaciones para este año.');
     }

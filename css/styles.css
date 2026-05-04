@@ -599,6 +599,19 @@
     font-weight: 700;
 }
 
+/* Form Grid Responsive */
+.form-grid-responsive {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+@media (max-width: 640px) {
+    .form-grid-responsive {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Utilities */
 .view--hidden { display: none !important; }
 .loading, .empty-state {

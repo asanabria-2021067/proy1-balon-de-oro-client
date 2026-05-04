@@ -51,7 +51,7 @@ export function renderPlayerModal(player, ceremonies, onSubmit) {
     modalBody.innerHTML = `
         <h2 style="margin-bottom: 1.5rem; color: var(--color-primary);">${player ? 'Editar Jugador' : 'Agregar Jugador'}</h2>
         <form id="player-form" class="form">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-grid-responsive">
                 <div class="form__group">
                     <label class="form__label">Nombre</label>
                     <input type="text" name="name" class="form__input" value="${player ? player.name : ''}" required>
@@ -61,8 +61,8 @@ export function renderPlayerModal(player, ceremonies, onSubmit) {
                     <input type="text" name="nationality" class="form__input" value="${player ? player.nationality : ''}" required>
                 </div>
             </div>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+
+            <div class="form-grid-responsive">
                 <div class="form__group">
                     <label class="form__label">Club</label>
                     <input type="text" name="club" class="form__input" value="${player ? player.club : ''}" required>
@@ -89,7 +89,7 @@ export function renderPlayerModal(player, ceremonies, onSubmit) {
 
             <div style="background: rgba(245, 197, 24, 0.05); padding: 15px; border-radius: 8px; border: 1px dashed var(--color-primary); margin-top: 10px;">
                 <h3 style="font-size: 0.9rem; color: var(--color-primary); margin-bottom: 10px;">Asignar Nominación</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-grid-responsive">
                     <div class="form__group" style="margin-bottom: 0;">
                         <label class="form__label">Año</label>
                         <select name="nominationYear" class="form__select">
