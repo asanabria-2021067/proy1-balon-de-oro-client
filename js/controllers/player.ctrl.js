@@ -16,7 +16,6 @@ export async function loadPlayers(query = searchQuery) {
             limit: pagination.limit
         });
 
-        // La API devuelve un objeto con { players, total, totalPages, page, limit }
         const players = response.players || [];
         pagination.total = response.total || 0;
         pagination.totalPages = response.totalPages || 1;
