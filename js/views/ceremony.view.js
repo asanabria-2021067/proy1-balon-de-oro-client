@@ -7,7 +7,7 @@ export function renderHero(ceremonyData) {
     heroContainer.style.backgroundImage = `url(${winner.photoUrl || 'assets/placeholder-hero.svg'})`;
     heroContainer.innerHTML = `
         <div class="hero__content">
-            <span class="badge badge--fwd" style="margin-bottom: 1rem; display: inline-block;">👑 Balón de Oro ${year}</span>
+            <span class="badge badge--fwd" style="margin-bottom: 1rem; display: inline-block;"> Balón de Oro ${year}</span>
             <h1 class="hero__title">${winner.name}</h1>
             <p class="hero__subtitle">${winner.club} | ${winner.nationality}</p>
         </div>

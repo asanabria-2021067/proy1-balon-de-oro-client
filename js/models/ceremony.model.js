@@ -14,7 +14,7 @@ export function getRankStyle(rank) {
     if (rank === 1) {
         return {
             borderColor: 'var(--color-primary)',
-            badge: '👑',
+            badge: `#${rank}`,
             className: 'card--rank-1'
         };
     }
