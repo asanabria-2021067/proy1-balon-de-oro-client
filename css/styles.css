@@ -138,7 +138,7 @@
 
 /* Hero */
 .hero {
-    height: 400px;
+    height: 500px;
     width: 100%;
     position: relative;
     background-size: cover;
@@ -637,6 +637,7 @@
 
 .toast--success { border-left-color: #22c55e; }
 .toast--error { border-left-color: #ef4444; }
+.toast--info { border-left-color: #3b82f6; }
 
 @keyframes slideIn {
     from { transform: translateX(100%); opacity: 0; }
@@ -1047,4 +1048,12 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.mini-player-card__years {
+    margin: 0;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--color-primary, #3b82f6);
+    font-weight: 500;
 }

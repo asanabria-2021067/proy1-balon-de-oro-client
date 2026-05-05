@@ -1,4 +1,4 @@
-import { getCountryStats, getPlayers } from './core/api.js';
+import { getCountryStats, getCeremonies, getCeremonyByYear } from './core/api.js';
 
 export function initStatsView() {
   loadStats();
@@ -83,31 +83,66 @@ async function showCountryWinners(country) {
   `;
   modalContainer.classList.remove('modal--hidden');
 
-  try {
-    const response = await getPlayers({ nationality: country, limit: 100 });
-    const players = response.players || [];
-    const listContainer = document.getElementById('country-winners-list');
+  const listContainer = document.getElementById('country-winners-list');
 
-    if (players.length === 0) {
+  try {
+    const ceremonies = await getCeremonies();
+    const winners = new Map();
+    const batchSize = 10;
+
+    for (let i = 0; i < ceremonies.length; i += batchSize) {
+      const batch = ceremonies.slice(i, i + batchSize);
+      const batchDetails = await Promise.all(
+        batch.map(c => getCeremonyByYear(c.year).catch(err => {
+          console.error(`Error loading year ${c.year}:`, err);
+          return null;
+        }))
+      );
+
+      batchDetails.forEach(detail => {
+        if (!detail || !detail.nominations || !Array.isArray(detail.nominations)) {
+          return;
+        }
+        const winner = detail.nominations.find(n => n.rank === 1);
+        if (winner && winner.player && winner.player.nationality === country) {
+          const playerId = winner.player.id || winner.player.name;
+          if (!winners.has(playerId)) {
+            winners.set(playerId, {
+              ...winner.player,
+              years: [detail.year]
+            });
+          } else {
+            winners.get(playerId).years.push(detail.year);
+          }
+        }
+      });
+    }
+
+    const winnersArray = Array.from(winners.values());
+
+    if (winnersArray.length === 0) {
       listContainer.innerHTML = '<p class="empty-state">No se encontraron ganadores para este país.</p>';
       return;
     }
 
     listContainer.innerHTML = `
       <div class="mini-players-grid">
-        ${players.map(p => `
+        ${winnersArray.map(p => `
           <div class="mini-player-card">
             <img src="${p.photoUrl || 'assets/silhouette.svg'}" alt="${p.name}" class="mini-player-card__photo" onerror="this.src='assets/silhouette.svg'">
             <div class="mini-player-card__info">
               <h4 class="mini-player-card__name">${p.name}</h4>
-              <p class="mini-player-card__club">${p.club}</p>
+              <p class="mini-player-card__club">${p.club || 'N/A'}</p>
+              <p class="mini-player-card__years">${p.years.length} ${p.years.length === 1 ? 'vez' : 'veces'} (${p.years.sort((a, b) => a - b).join(', ')})</p>
             </div>
           </div>
         `).join('')}
       </div>
     `;
   } catch (err) {
-    document.getElementById('country-winners-list').innerHTML = 
-      '<p class="empty-state">Error al cargar los ganadores.</p>';
+    console.error('Error loading country winners:', err);
+    if (listContainer) {
+      listContainer.innerHTML = '<p class="empty-state">Error al cargar los ganadores. Revisa la consola.</p>';
+    }
   }
 }

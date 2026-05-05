@@ -7,27 +7,38 @@ import { loadCeremony } from './ceremony.ctrl.js';
 const pagination = { page: 1, limit: 12, total: 0, totalPages: 0 };
 let searchQuery = '';
 let availableCeremonies = [];
+let allPlayers = [];
 
 export async function loadPlayers(query = searchQuery) {
     searchQuery = query;
     try {
-        const response = await getPlayers({
-            q: searchQuery,
-            nationality: searchQuery,
-            page: pagination.page,
-            limit: pagination.limit
-        });
+        if (allPlayers.length === 0) {
+            const response = await getPlayers({ limit: 10000 });
+            allPlayers = response.players || [];
+        }
 
-        const players = response.players || [];
-        pagination.total = response.total || 0;
-        pagination.totalPages = response.totalPages || 1;
+        const filtered = searchQuery
+            ? allPlayers.filter(p =>
+                p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                p.nationality.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                p.club.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                p.position.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+            : allPlayers;
+
+        pagination.total = filtered.length;
+        pagination.totalPages = Math.ceil(filtered.length / pagination.limit);
+
+        const start = (pagination.page - 1) * pagination.limit;
+        const end = start + pagination.limit;
+        const players = filtered.slice(start, end);
 
         setState('players', players);
         setState('searchQuery', searchQuery);
-        
+
         renderPlayerGrid(players, handleEdit, handleDelete);
         renderPagination(
-            pagination, 
+            pagination,
             (newPage) => {
                 pagination.page = newPage;
                 loadPlayers();
@@ -50,6 +61,7 @@ export async function handleCreatePlayer(formData) {
         await createPlayer(formData);
         showToast('Jugador creado con éxito', 'success');
         closeModal();
+        allPlayers = [];
         loadPlayers();
 
         const state = getState();
@@ -66,6 +78,7 @@ export async function handleUpdatePlayer(id, formData) {
         await updatePlayer(id, formData);
         showToast('Jugador actualizado con éxito', 'success');
         closeModal();
+        allPlayers = [];
         loadPlayers();
 
         const state = getState();
@@ -82,6 +95,7 @@ export async function handleDeletePlayer(id, name) {
         try {
             await deletePlayer(id);
             showToast('Jugador eliminado', 'success');
+            allPlayers = [];
             loadPlayers();
         } catch (error) {
             showToast('Error al eliminar jugador', 'error');

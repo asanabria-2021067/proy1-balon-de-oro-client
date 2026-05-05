@@ -1,5 +1,5 @@
 import { getCeremonies, getCeremonyByYear } from '../core/api.js';
-import { showToast } from '../views/toast.view.js';
+import { showLoadingToast, hideLoadingToast } from '../views/toast.view.js';
 
 async function loadJSZip() {
     if (window.JSZip) return window.JSZip;
@@ -13,7 +13,7 @@ async function loadJSZip() {
 }
 
 export async function exportToCSV() {
-    showToast('Preparando exportación CSV...', 'success');
+    const toastId = showLoadingToast('Preparando exportación CSV...');
     try {
         const ceremoniesList = await getCeremonies();
         let allData = [];
@@ -57,13 +57,14 @@ export async function exportToCSV() {
         link.setAttribute('download', 'balon-de-oro.csv');
         link.click();
 
+        hideLoadingToast(toastId, 'CSV exportado con éxito', 'success');
     } catch (error) {
-        showToast('Error al exportar CSV', 'error');
+        hideLoadingToast(toastId, 'Error al exportar CSV', 'error');
     }
 }
 
 export async function exportToExcel() {
-    showToast('Preparando exportación Excel...', 'success');
+    const toastId = showLoadingToast('Preparando exportación Excel...');
     try {
         const JSZip = await loadJSZip();
         const zip = new JSZip();
@@ -195,7 +196,8 @@ export async function exportToExcel() {
         a.download = 'balon-de-oro.xlsx';
         a.click();
 
+        hideLoadingToast(toastId, 'Excel exportado con éxito', 'success');
     } catch (error) {
-        showToast('Error al exportar Excel', 'error');
+        hideLoadingToast(toastId, 'Error al exportar Excel', 'error');
     }
 }
