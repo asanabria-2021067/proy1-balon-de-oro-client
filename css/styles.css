@@ -282,14 +282,28 @@
     text-align: center;
 }
 
+.card__photo-container {
+    position: relative;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
 .card__photo {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    margin-bottom: 1rem;
     background-color: var(--bg-surface);
+    display: block;
+}
+
+.card__position {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    background-color: var(--bg-card) !important; /* Force background to be visible over photo */
 }
 
 .card__name {
@@ -304,24 +318,39 @@
     margin-bottom: 0.5rem;
 }
 
-.card__rating {
-    margin-top: 10px;
-    color: var(--color-primary);
 }
 
 /* Badge */
 .badge {
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid transparent;
 }
 
-.badge--gk { background-color: #3b82f6; color: white; }
-.badge--def { background-color: #22c55e; color: white; }
-.badge--mid { background-color: #eab308; color: white; }
-.badge--fwd { background-color: #a855f7; color: white; }
+.badge--gk { 
+    background-color: rgba(59, 130, 246, 0.1); 
+    color: #60a5fa; 
+    border-color: rgba(59, 130, 246, 0.2);
+}
+.badge--def { 
+    background-color: rgba(34, 197, 94, 0.1); 
+    color: #4ade80; 
+    border-color: rgba(34, 197, 94, 0.2);
+}
+.badge--mid { 
+    background-color: rgba(234, 179, 8, 0.1); 
+    color: #facc15; 
+    border-color: rgba(234, 179, 8, 0.2);
+}
+.badge--fwd { 
+    background-color: rgba(168, 85, 247, 0.1); 
+    color: #c084fc; 
+    border-color: rgba(168, 85, 247, 0.2);
+}
 
 /* Admin Header */
 .admin-header {
@@ -495,11 +524,23 @@
     font-weight: 700;
 }
 
-.form__input, .form__select, .form__textarea {
+.form__input, .form__textarea {
     width: 100%;
     background-color: var(--bg-primary);
     border: 1px solid var(--color-border);
     color: white;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.form__select {
+    width: 100%;
+    background-color: white; /* Change background to white for black text */
+    border: 1px solid var(--color-border);
+    color: black;
     padding: 0.85rem 1rem;
     border-radius: 8px;
     font-family: inherit;
@@ -556,20 +597,6 @@
     object-fit: cover;
     border: 3px solid var(--color-border);
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-/* Star Rating */
-.star-rating {
-    display: flex;
-    gap: 5px;
-    font-size: 1.5rem;
-    margin: 1rem 0;
-}
-
-.star-rating__star {
-    cursor: pointer;
-    color: var(--color-muted);
-    transition: var(--transition);
 }
 
 /* Toast */

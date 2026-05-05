@@ -92,35 +92,6 @@ export async function deletePlayer(id) {
     }
 }
 
-export async function addRating(nominationId, {score, comment}) {
-    try {
-        const response = await fetch(`${API_URL}/nominations/${nominationId}/rating`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ score, comment })
-        });
-        if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.error || 'Error al enviar calificación');
-        }
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
-export async function getNominationRating(nominationId) {
-    try {
-        const response = await fetch(`${API_URL}/nominations/${nominationId}/rating`);
-        if (!response.ok) throw new Error('Error al obtener calificación');
-        return await response.json();
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-}
-
 export async function getCountryStats() {
     try {
         const res = await fetch(`${API_URL}/stats/countries`);

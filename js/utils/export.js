@@ -29,13 +29,12 @@ export async function exportToCSV() {
                     club: n.player.club,
                     position: n.player.position,
                     votes: n.votesReceived || 0,
-                    avgRating: n.averageRating || 0,
                     winner: n.rank === 1 ? 'Sí' : 'No'
                 });
             });
         }
 
-        const headers = ['Año', 'Puesto', 'Jugador', 'Nacionalidad', 'Club', 'Posición', 'Votos', 'Calificación Promedio', 'Ganador'];
+        const headers = ['Año', 'Puesto', 'Jugador', 'Nacionalidad', 'Club', 'Posición', 'Votos', 'Ganador'];
         let csvContent = headers.join(',') + '\n';
 
         allData.forEach(row => {
@@ -47,7 +46,6 @@ export async function exportToCSV() {
                 `"${row.club.replace(/"/g, '""')}"`,
                 row.position,
                 row.votes,
-                row.avgRating.toFixed(2),
                 row.winner
             ].join(',') + '\n';
         });
@@ -84,13 +82,12 @@ export async function exportToExcel() {
                     club: n.player.club,
                     position: n.player.position,
                     votes: n.votesReceived || 0,
-                    avgRating: n.averageRating || 0,
                     winner: n.rank === 1 ? 'Sí' : 'No'
                 });
             });
         }
 
-        const sharedStrings = ['Año', 'Puesto', 'Jugador', 'Nacionalidad', 'Club', 'Posición', 'Votos', 'Calificación Promedio', 'Ganador'];
+        const sharedStrings = ['Año', 'Puesto', 'Jugador', 'Nacionalidad', 'Club', 'Posición', 'Votos', 'Ganador'];
         allData.forEach(row => {
             if (!sharedStrings.includes(row.player)) sharedStrings.push(row.player);
             if (!sharedStrings.includes(row.nationality)) sharedStrings.push(row.nationality);
@@ -108,7 +105,6 @@ export async function exportToExcel() {
         sheetData += '<c r="F1" t="s" s="1"><v>5</v></c>';
         sheetData += '<c r="G1" t="s" s="1"><v>6</v></c>';
         sheetData += '<c r="H1" t="s" s="1"><v>7</v></c>';
-        sheetData += '<c r="I1" t="s" s="1"><v>8</v></c>';
         sheetData += '</row>';
 
         allData.forEach((row, idx) => {
@@ -121,8 +117,7 @@ export async function exportToExcel() {
             sheetData += `<c r="E${rowNum}" t="s"><v>${sharedStrings.indexOf(row.club)}</v></c>`;
             sheetData += `<c r="F${rowNum}" t="s"><v>${sharedStrings.indexOf(row.position)}</v></c>`;
             sheetData += `<c r="G${rowNum}"><v>${row.votes}</v></c>`;
-            sheetData += `<c r="H${rowNum}"><v>${row.avgRating.toFixed(2)}</v></c>`;
-            sheetData += `<c r="I${rowNum}" t="s"><v>${sharedStrings.indexOf(row.winner)}</v></c>`;
+            sheetData += `<c r="H${rowNum}" t="s"><v>${sharedStrings.indexOf(row.winner)}</v></c>`;
             sheetData += '</row>';
         });
 

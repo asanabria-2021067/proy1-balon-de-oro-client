@@ -1,4 +1,4 @@
-import { getRankStyle, renderStarsString } from '../models/ceremony.model.js';
+import { getRankStyle } from '../models/ceremony.model.js';
 
 export function renderHero(ceremonyData) {
     const heroContainer = document.getElementById('hero-section');
@@ -62,20 +62,19 @@ export function renderTop10Grid(nominations, onCardClick) {
 }
 
 export function renderNominationCard(nomination) {
-    const { nominationId, rank, player, averageRating } = nomination;
+    const { nominationId, rank, player } = nomination;
     const rankStyle = getRankStyle(rank);
 
     return `
         <div class="card ${rankStyle.className}" style="cursor: pointer;">
             <div class="card__badge">${rankStyle.badge}</div>
             <div class="card__content">
-                <img src="${player.photoUrl || 'assets/silhouette.svg'}" alt="${player.name}" class="card__photo" onerror="this.src='assets/silhouette.svg'">
+                <div class="card__photo-container">
+                    <img src="${player.photoUrl || 'assets/silhouette.svg'}" alt="${player.name}" class="card__photo" onerror="this.src='assets/silhouette.svg'">
+                    <span class="card__position badge badge--${player.position.toLowerCase()}">${player.position}</span>
+                </div>
                 <h3 class="card__name">${player.name}</h3>
                 <p class="card__info">${player.club} | ${player.nationality}</p>
-                <span class="badge badge--${player.position.toLowerCase()}">${player.position}</span>
-                <div class="card__rating">
-                    ${renderStarsString(averageRating)} <span>${averageRating ? averageRating.toFixed(1) : '0.0'}</span>
-                </div>
             </div>
         </div>
     `;

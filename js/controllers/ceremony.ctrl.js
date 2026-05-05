@@ -2,7 +2,6 @@ import { getCeremonyByYear, getCeremonies } from '../core/api.js';
 import { setState, getState } from '../core/state.js';
 import { transformCeremony } from '../models/ceremony.model.js';
 import { renderHero, renderYearSelector, renderTop10Grid, showErrorState } from '../views/ceremony.view.js';
-import { renderRatingModal } from '../controllers/rating.ctrl.js';
 
 export async function loadCeremony(year) {
     try {
@@ -29,7 +28,7 @@ export async function handleYearChange(year) {
 }
 
 export function handleCardClick(nominationId) {
-    renderRatingModal(nominationId);
+    // Rating feature removed
 }
 
 export async function initCeremoniesView() {

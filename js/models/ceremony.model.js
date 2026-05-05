@@ -46,12 +46,3 @@ export function generateYearRange() {
     }
     return years;
 }
-
-export function renderStarsString(rating) {
-    const fullStars = Math.floor(rating || 0);
-    let starsHtml = '';
-    for (let i = 1; i <= 5; i++) {
-        starsHtml += i <= fullStars ? '★' : '☆';
-    }
-    return starsHtml;
-}

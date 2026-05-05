@@ -26,7 +26,6 @@ Then open http://localhost:8080
 
 - **Ceremonies View**: Hero section + top 10 nominations grid with year selector (1998-2025, excluding 2020)
 - **Player Management**: Full CRUD with photo upload and preview
-- **Rating System**: Interactive 5-star widget with comments
 - **Export**: Manual CSV and Excel (SpreadsheetML) generation
 - **Dark Gold Theme**: Premium UI with CSS Grid, smooth transitions, hover effects
 - **Toast Notifications**: Auto-dismiss feedback system
@@ -55,17 +54,14 @@ Clean separation of concerns using Model-View-Controller:
 │   │   └── state.js         # Global state management
 │   ├── models/
 │   │   ├── ceremony.model.js  # Pure functions: transform, filter, format
-│   │   ├── player.model.js    # Pure functions: validate, transform
-│   │   └── rating.model.js    # Pure functions: calculate, format
+│   │   └── player.model.js    # Pure functions: validate, transform
 │   ├── views/
 │   │   ├── ceremony.view.js   # DOM manipulation for ceremonies
 │   │   ├── player.view.js     # DOM manipulation for players
-│   │   ├── rating.view.js     # DOM manipulation for ratings
 │   │   └── toast.view.js      # Toast notifications
 │   ├── controllers/
 │   │   ├── ceremony.ctrl.js   # Orchestrates ceremonies (api → model → view)
-│   │   ├── player.ctrl.js     # Orchestrates players (api → model → view)
-│   │   └── rating.ctrl.js     # Orchestrates ratings (api → model → view)
+│   │   └── player.ctrl.js     # Orchestrates players (api → model → view)
 │   └── utils/
 │       └── export.js          # CSV + Excel SpreadsheetML export
 └── assets/
