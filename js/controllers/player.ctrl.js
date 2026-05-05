@@ -13,6 +13,7 @@ export async function loadPlayers(query = searchQuery) {
     try {
         const response = await getPlayers({
             q: searchQuery,
+            nationality: searchQuery,
             page: pagination.page,
             limit: pagination.limit
         });

@@ -993,3 +993,57 @@
         font-size: 0.95rem;
     }
 }
+
+/* Mini Grid for Stats Winners */
+.winners-mini-grid {
+    padding: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.mini-players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.mini-player-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background-color: var(--color-bg-alt, #f9f9f9);
+    border-radius: 8px;
+    border: 1px solid var(--color-border, #eee);
+}
+
+.mini-player-card__photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #eee;
+}
+
+.mini-player-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mini-player-card__name {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mini-player-card__club {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--color-muted, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
