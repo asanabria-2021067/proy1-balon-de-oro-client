@@ -6,8 +6,44 @@ import { loadCeremony } from './ceremony.ctrl.js';
 
 const pagination = { page: 1, limit: 12, total: 0, totalPages: 0 };
 let searchQuery = '';
+let sortBy = '';
 let availableCeremonies = [];
 let allPlayers = [];
+let playerWins = {};
+
+async function loadPlayerWins() {
+    if (Object.keys(playerWins).length > 0) return;
+
+    try {
+        const ceremonies = await getCeremonies();
+        ceremonies.forEach(c => {
+            if (c.winner && c.winner.id) {
+                playerWins[c.winner.id] = (playerWins[c.winner.id] || 0) + 1;
+            }
+        });
+    } catch (err) {
+        console.error('Error loading player wins:', err);
+    }
+}
+
+function sortPlayers(players) {
+    const sorted = [...players];
+
+    switch (sortBy) {
+        case 'name-asc':
+            return sorted.sort((a, b) => a.name.localeCompare(b.name));
+        case 'name-desc':
+            return sorted.sort((a, b) => b.name.localeCompare(a.name));
+        case 'wins-desc':
+            return sorted.sort((a, b) => {
+                const winsA = playerWins[a.id] || 0;
+                const winsB = playerWins[b.id] || 0;
+                return winsB - winsA;
+            });
+        default:
+            return sorted;
+    }
+}
 
 export async function loadPlayers(query = searchQuery) {
     searchQuery = query;
@@ -17,7 +53,11 @@ export async function loadPlayers(query = searchQuery) {
             allPlayers = response.players || [];
         }
 
-        const filtered = searchQuery
+        if (sortBy === 'wins-desc' && Object.keys(playerWins).length === 0) {
+            await loadPlayerWins();
+        }
+
+        let filtered = searchQuery
             ? allPlayers.filter(p =>
                 p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 p.nationality.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -25,6 +65,8 @@ export async function loadPlayers(query = searchQuery) {
                 p.position.toLowerCase().includes(searchQuery.toLowerCase())
               )
             : allPlayers;
+
+        filtered = sortPlayers(filtered);
 
         pagination.total = filtered.length;
         pagination.totalPages = Math.ceil(filtered.length / pagination.limit);
@@ -143,14 +185,23 @@ export function handleSearch(query) {
     }, 300);
 }
 
+export function handleSort(value) {
+    sortBy = value;
+    pagination.page = 1;
+    loadPlayers();
+}
+
 export function initPlayersView() {
-    // Escuchar búsqueda
     const searchInput = document.getElementById('player-search');
     if (searchInput) {
         searchInput.oninput = (e) => handleSearch(e.target.value);
     }
 
-    // Botón agregar
+    const sortSelect = document.getElementById('player-sort');
+    if (sortSelect) {
+        sortSelect.onchange = (e) => handleSort(e.target.value);
+    }
+
     const addBtn = document.getElementById('btn-add-player');
     if (addBtn) {
         addBtn.onclick = () => openPlayerModal();
