@@ -538,21 +538,35 @@
 
 .form__select {
     width: 100%;
-    background-color: white; /* Change background to white for black text */
+    background-color: #ffffff;
     border: 1px solid var(--color-border);
-    color: black;
+    color: #000000;
     padding: 0.85rem 1rem;
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.95rem;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
-.form__input:hover, .form__select:hover, .form__textarea:hover {
+.form__select:hover {
+    background-color: #fcfcfc;
+    border-color: rgba(245, 197, 24, 0.5);
+}
+
+.form__select:focus {
+    outline: none;
+    background-color: #f0f0f0; /* Tonalidad sutil de gris para el UX de click */
+    border-color: var(--color-primary);
+    color: #000000;
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+}
+
+.form__input:hover, .form__textarea:hover {
     border-color: rgba(245, 197, 24, 0.3);
 }
 
-.form__input:focus, .form__select:focus, .form__textarea:focus {
+.form__input:focus, .form__textarea:focus {
     outline: none;
     border-color: var(--color-primary);
     background-color: rgba(245, 197, 24, 0.03);
