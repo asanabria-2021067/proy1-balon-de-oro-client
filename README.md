@@ -1,133 +1,133 @@
-# Balon de oro Tracker
+# 🏆 Tracker del Balón de Oro
 
-Historical Balón de Oro tracker. Vanilla HTML + CSS + JS frontend, no frameworks.
+Explorador histórico completo del prestigioso Balón de Oro. Frontend construido con **HTML + CSS + JavaScript puro** - cero frameworks, máximo rendimiento.
 
-**Live Demo:** http://158.23.57.118/angel/proy1-balon-de-oro-client/index.html
+**Demo en Vivo:** http://158.23.57.118/angel/proy1-balon-de-oro-client/index.html
 
-## Tech Stack
+## 🛠️ Stack Tecnológico
 
-- **HTML5, CSS3, JavaScript ES6+** (vanilla, no frameworks)
-- **Native fetch()** for API calls
-- **JSZip 3.10.1** dynamically loaded (only for Excel export)
-- **Google Fonts** (Inter)
+- **HTML5, CSS3, JavaScript ES6+** (vanilla, sin frameworks ni librerías reactivas)
+- **Fetch API nativa** para comunicación con el backend
+- **JSZip 3.10.1** cargado dinámicamente (solo para exportación Excel)
+- **Google Fonts** (Inter) - Tipografía moderna y legible
 
-## How to Run Locally
+## 🚀 Cómo Ejecutar Localmente
 
-**Option A: VS Code Live Server**
-- Right click `index.html` → Open with Live Server
+**Opción A: VS Code Live Server**
+- Click derecho en `index.html` → Open with Live Server
 
-**Option B: Python HTTP Server**
+**Opción B: Servidor HTTP de Python**
 ```bash
 python3 -m http.server 8080
 ```
-Then open http://localhost:8080
+Luego abre http://localhost:8080
 
-**Important:** Production API is at `https://proy1-balon-de-oro-api.vercel.app/api` (already configured in `js/core/api.js`).
+**Importante:** La API de producción está en `https://proy1-balon-de-oro-api.vercel.app/api` (ya configurada en `js/core/api.js`).
 
-## Features
+## ✨ Funcionalidades Principales
 
-- **Ceremonies View**: Hero section + top 10 nominations grid with year selector (1998-2025, excluding 2020)
-- **Player Management**: Full CRUD with photo upload and preview
-- **Export**: Manual CSV and Excel (SpreadsheetML) generation
-- **Dark Gold Theme**: Premium UI with CSS Grid, smooth transitions, hover effects
-- **Toast Notifications**: Auto-dismiss feedback system
-- **Search**: Debounced player search (300ms)
+- **Vista de Ceremonias**: Sección hero impactante + grid de top 10 nominaciones con selector de año (1998-2025, excluyendo 2020)
+- **Gestión de Jugadores**: CRUD completo con upload de foto y preview en tiempo real
+- **Exportación**: Generación manual de CSV y Excel (SpreadsheetML) sin dependencias externas pesadas
+- **Tema Dark Gold Premium**: UI elegante con CSS Grid, transiciones suaves, efectos hover refinados
+- **Notificaciones Toast**: Sistema de feedback auto-dismissible con animaciones
+- **Búsqueda Inteligente**: Búsqueda de jugadores con debounce de 300ms para optimizar requests
 
-## Architecture: MVC Pattern
+## 🏗️ Arquitectura: Patrón MVC
 
-Clean separation of concerns using Model-View-Controller:
+Separación limpia de responsabilidades usando Model-View-Controller clásico:
 
-**CORE** → API calls + state management (no DOM, no logic)
-**MODELS** → Pure transformation functions (no DOM, no fetch)
-**VIEWS** → DOM manipulation only (receives processed data)
-**CONTROLLERS** → Orchestration layer (api → model → view)
-**UTILS** → Self-contained export logic
+**CORE** → Llamadas API + gestión de estado global (cero DOM, cero lógica de negocio)
+**MODELS** → Funciones de transformación puras (cero DOM, cero fetch)
+**VIEWS** → Manipulación DOM exclusivamente (recibe datos ya procesados)
+**CONTROLLERS** → Capa de orquestación (api → model → view)
+**UTILS** → Lógica autocontenida de exportación
 
-## Project Structure
+## 📁 Estructura del Proyecto
 
 ```
 ├── index.html
 ├── css/
-│   └── styles.css           # BEM methodology, dark gold theme
+│   └── styles.css           # Metodología BEM, tema dark gold
 ├── js/
-│   ├── app.js               # Wires controllers, navigation, event listeners
+│   ├── app.js               # Conecta controllers, navegación, event listeners
 │   ├── core/
-│   │   ├── api.js           # All fetch() calls (zero DOM, zero logic)
-│   │   └── state.js         # Global state management
+│   │   ├── api.js           # Todas las llamadas fetch() (cero DOM, cero lógica)
+│   │   └── state.js         # Gestión de estado global
 │   ├── models/
-│   │   ├── ceremony.model.js  # Pure functions: transform, filter, format
-│   │   └── player.model.js    # Pure functions: validate, transform
+│   │   ├── ceremony.model.js  # Funciones puras: transformar, filtrar, formatear
+│   │   └── player.model.js    # Funciones puras: validar, transformar
 │   ├── views/
-│   │   ├── ceremony.view.js   # DOM manipulation for ceremonies
-│   │   ├── player.view.js     # DOM manipulation for players
-│   │   └── toast.view.js      # Toast notifications
+│   │   ├── ceremony.view.js   # Manipulación DOM para ceremonias
+│   │   ├── player.view.js     # Manipulación DOM para jugadores
+│   │   └── toast.view.js      # Sistema de notificaciones
 │   ├── controllers/
-│   │   ├── ceremony.ctrl.js   # Orchestrates ceremonies (api → model → view)
-│   │   └── player.ctrl.js     # Orchestrates players (api → model → view)
+│   │   ├── ceremony.ctrl.js   # Orquesta ceremonias (api → model → view)
+│   │   └── player.ctrl.js     # Orquesta jugadores (api → model → view)
 │   └── utils/
-│       └── export.js          # CSV + Excel SpreadsheetML export
+│       └── export.js          # Exportación CSV + Excel SpreadsheetML
 └── assets/
-    ├── silhouette.svg         # Player photo fallback
-    └── placeholder-hero.svg   # Hero background fallback
+    ├── silhouette.svg         # Fallback para foto de jugador
+    └── placeholder-hero.svg   # Fallback para fondo del hero
 ```
 
-**Layer Responsibilities:**
+**Responsabilidades por Capa:**
 
-| Layer | Can Import | Cannot Import | Purpose |
-|-------|-----------|---------------|---------|
-| **CORE** | Nothing | DOM, models | Fetch + state only |
-| **MODELS** | Nothing | DOM, core/api | Pure data transformation |
-| **VIEWS** | models (helpers) | core/api | DOM manipulation only |
-| **CONTROLLERS** | All layers | Nothing | Orchestration |
-| **UTILS** | core, views | models, controllers | Self-contained exports |
+| Capa | Puede Importar | No Puede Importar | Propósito |
+|------|----------------|-------------------|-----------|
+| **CORE** | Nada | DOM, models | Solo fetch + state |
+| **MODELS** | Nada | DOM, core/api | Transformación pura de datos |
+| **VIEWS** | models (helpers) | core/api | Solo manipulación DOM |
+| **CONTROLLERS** | Todas las capas | Nada | Orquestación |
+| **UTILS** | core, views | models, controllers | Exports autocontenidos |
 
-## Design Conventions
+## 🎨 Convenciones de Diseño
 
 **BEM (Block, Element, Modifier)**
-- Modular, reusable components
-- Clear class structure: `block__element--modifier`
-- Avoids specificity wars and naming collisions
+- Componentes modulares y reutilizables
+- Estructura de clases clara: `bloque__elemento--modificador`
+- Evita guerras de especificidad y colisiones de nombres
 
-**CSS Variables**
+**Variables CSS (Custom Properties)**
 ```css
---bg-primary: #0a0a0f
---bg-surface: #12121a
---bg-card: #1a1a2e
---color-primary: #f5c518  /* Gold */
---color-accent: #e8a900
---color-text: #ffffff
---color-muted: #888899
---color-border: #1e1e2e
+--bg-primary: #0a0a0f       /* Fondo principal oscuro profundo */
+--bg-surface: #12121a       /* Superficie secundaria */
+--bg-card: #1a1a2e          /* Fondo de cards */
+--color-primary: #f5c518    /* Oro característico del Balón de Oro */
+--color-accent: #e8a900     /* Acento oro más intenso */
+--color-text: #ffffff       /* Texto principal */
+--color-muted: #888899      /* Texto secundario */
+--color-border: #1e1e2e     /* Bordes sutiles */
 ```
 
-**Responsive Breakpoints**
-- Desktop: 3 columns
-- Tablet (768px): 2 columns
-- Mobile (480px): 1 column
+**Breakpoints Responsive**
+- Desktop: 3 columnas
+- Tablet (768px): 2 columnas
+- Mobile (480px): 1 columna
 
-## Implemented Challenges
+## ✅ Desafíos Implementados
 
-- ✅ **[Subjetivo] Calidad visual del cliente** - Dark gold premium theme, smooth animations, responsive grid
-- ✅ **[Subjetivo] Calidad del historial de Git** - Conventional commits, clean history
-- ✅ **[Subjetivo] Organización del código** - MVC architecture, ES modules, BEM CSS, strict separation of concerns
-- ✅ **Exportar lista** - Manual CSV + Excel (SpreadsheetML) generation with JSZip
+- ✅ **[Subjetivo] Calidad visual del cliente** - Tema premium dark gold, animaciones suaves, grid responsive profesional
+- ✅ **[Subjetivo] Calidad del historial de Git** - Conventional commits, historial limpio y descriptivo
+- ✅ **[Subjetivo] Organización del código** - Arquitectura MVC estricta, ES modules, BEM CSS, separación rigurosa de responsabilidades
+- ✅ **Exportar lista** - Generación manual de CSV + Excel (SpreadsheetML) con JSZip, sin dependencias pesadas
 
-## Backend
+## 🔗 Backend
 
-**Repository:** [proy1-balon-de-oro-api](https://github.com/asanabria-2021067/proy1-balon-de-oro-api)
+**Repositorio:** [proy1-balon-de-oro-api](https://github.com/asanabria-2021067/proy1-balon-de-oro-api)
 
 **Stack:**
 - Node.js + Express
 - Supabase PostgreSQL
-- Hexagonal Architecture (Ports & Adapters)
-- Deployed on Vercel
+- Arquitectura Hexagonal (Puertos y Adaptadores)
+- Desplegado en Vercel
 
-## Reflection
+## 💭 Reflexión
 
-**Would I use Vanilla JS again for a project of this scale?**
+**¿Volvería a usar JavaScript Vanilla para un proyecto de esta escala?**
 
-Yes, for projects where critical performance and total bundle control are priorities. Vanilla JS keeps the bundle tiny (<10KB gzipped), loads instantly, and runs without framework overhead.
+Sí, definitivamente para proyectos donde el rendimiento crítico y el control total del bundle sean prioridades absolutas. JavaScript Vanilla mantiene el bundle minúsculo (<10KB gzipped), carga instantáneamente y se ejecuta sin el overhead de ningún framework.
 
-However, for apps with highly dynamic state or complex forms, a framework like React or Vue would make reactivity and component reusability significantly easier. The manual DOM sync in this project works well but becomes verbose with more interactivity.
+Sin embargo, para aplicaciones con estado altamente dinámico o formularios complejos, un framework como React o Vue facilitaría significativamente la reactividad y la reutilización de componentes. La sincronización manual del DOM en este proyecto funciona perfectamente, pero se vuelve verbosa con más interactividad.
 
-**Key Takeaway:** Vanilla JS is underrated. With ES modules, MVC architecture, and modern APIs (fetch, template literals, destructuring), you can build production-grade apps without frameworks—just requires discipline in code organization and clear separation of concerns.
+**Conclusión Clave:** JavaScript Vanilla está subestimado. Con ES modules, arquitectura MVC y APIs modernas (fetch, template literals, destructuring), puedes construir aplicaciones de grado producción sin frameworks - solo requiere disciplina en la organización del código y separación clara de responsabilidades.
