@@ -10,20 +10,18 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="page">
-    <header class="navbar">
-        <div class="navbar__left">
-            <span class="navbar__logo">Ganadores de balon de oro</span>
-        </div>
-        <nav class="navbar__center">
-            <button id="nav-ceremonies" class="navbar__link navbar__link--active">Ceremonias</button>
-            <button id="nav-players" class="navbar__link">Jugadores</button>
-            <button id="nav-stats" class="navbar__link">Estadísticas</button>
+    <aside class="sidebar">
+        <div class="sidebar__logo">PREMIOS</div>
+        <nav class="sidebar__nav">
+            <button id="nav-ceremonies" class="sidebar__link sidebar__link--active">Ceremonias</button>
+            <button id="nav-players" class="sidebar__link">Jugadores</button>
+            <button id="nav-stats" class="sidebar__link">Estadísticas</button>
         </nav>
-        <div class="navbar__right">
-            <button id="btn-export-csv" class="btn btn--outline">Exportar CSV</button>
-            <button id="btn-export-excel" class="btn btn--outline">Exportar Excel</button>
+        <div class="sidebar__footer">
+            <button id="btn-export-csv" class="btn btn--outline btn--sm">Exportar en CSV</button>
+            <button id="btn-export-excel" class="btn btn--outline btn--sm">Exportar en Excel</button>
         </div>
-    </header>
+    </aside>
 
     <main id="app-content" class="main-content">
         <section id="view-ceremonies" class="view">

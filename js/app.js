@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewCeremonies = document.getElementById('view-ceremonies');
     const viewPlayers = document.getElementById('view-players');
     const viewStats = document.getElementById('stats-view');
-    const logo = document.querySelector('.navbar__logo');
+    const logo = document.querySelector('.sidebar__logo');
     const modalContainer = document.getElementById('modal-container');
 
     const switchToCeremonies = () => {
-        navCeremonies.classList.add('navbar__link--active');
-        navPlayers.classList.remove('navbar__link--active');
-        navStats.classList.remove('navbar__link--active');
+        navCeremonies.classList.add('sidebar__link--active');
+        navPlayers.classList.remove('sidebar__link--active');
+        navStats.classList.remove('sidebar__link--active');
         viewCeremonies.classList.remove('view--hidden');
         viewPlayers.classList.add('view--hidden');
         viewStats.classList.add('view--hidden');
@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const switchToPlayers = () => {
-        navPlayers.classList.add('navbar__link--active');
-        navCeremonies.classList.remove('navbar__link--active');
-        navStats.classList.remove('navbar__link--active');
+        navPlayers.classList.add('sidebar__link--active');
+        navCeremonies.classList.remove('sidebar__link--active');
+        navStats.classList.remove('sidebar__link--active');
         viewPlayers.classList.remove('view--hidden');
         viewCeremonies.classList.add('view--hidden');
         viewStats.classList.add('view--hidden');
@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const switchToStats = () => {
-        navStats.classList.add('navbar__link--active');
-        navCeremonies.classList.remove('navbar__link--active');
-        navPlayers.classList.remove('navbar__link--active');
+        navStats.classList.add('sidebar__link--active');
+        navCeremonies.classList.remove('sidebar__link--active');
+        navPlayers.classList.remove('sidebar__link--active');
         viewStats.classList.remove('view--hidden');
         viewCeremonies.classList.add('view--hidden');
         viewPlayers.classList.add('view--hidden');
@@ -48,8 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     navCeremonies.onclick = switchToCeremonies;
-    logo.onclick = switchToCeremonies;
-    logo.style.cursor = 'pointer';
 
     navPlayers.onclick = switchToPlayers;
     navStats.onclick = switchToStats;

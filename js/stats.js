@@ -22,42 +22,40 @@ async function loadStats() {
 function renderStats(countries) {
   const container = document.getElementById('stats-view');
   const maxWins = countries[0]?.wins || 1;
+  const totalWins = countries.reduce((acc, c) => acc + c.wins, 0);
 
   container.innerHTML = `
     <div class="container">
-      <div class="stats-header" style="margin-bottom: 2rem; margin-top: 2rem;">
-        <h2 class="stats-title">Países con más Balones de Oro</h2>
-        <p class="stats-subtitle">Histórico 1956 – 2025</p>
+      <div class="stats-header">
+        <h2 class="stats-title">Estadísticas Globales</h2>
+        <p class="stats-subtitle">Análisis detallado de los premios Balón de Oro por nacionalidad desde 1956.</p>
       </div>
 
-      <div class="stats-grid">
-        ${countries.map((c, i) => `
-          <div class="stat-row" style="cursor: pointer;" data-country="${c.country}">
-            <div class="stat-rank">${i + 1}</div>
-            <div class="stat-country">${c.country}</div>
-            <div class="stat-bar-wrapper">
-              <div class="stat-bar" style="width: ${(c.wins / maxWins) * 100}%"></div>
+      <div class="stats-ranking-container">
+        <div class="ranking-header">
+          <h3 class="ranking-title">
+            Ranking de Nacionalidades
+          </h3>
+        </div>
+        
+        <div class="stats-grid">
+          ${countries.map((c, i) => `
+            <div class="stat-row" data-country="${c.country}">
+              <div class="stat-rank">${i + 1}</div>
+              <div class="stat-country">${c.country}</div>
+              <div class="stat-bar-wrapper">
+                <div class="stat-bar" style="width: ${(c.wins / maxWins) * 100}%"></div>
+              </div>
+              <div class="stat-wins">
+                ${c.wins} ${c.wins === 1 ? 'Balón de Oro' : 'Balones de Oro'}
+              </div>
             </div>
-            <div class="stat-wins">
-              ${c.wins} ${c.wins === 1 ? 'victoria' : 'victorias'}
-            </div>
-          </div>
-        `).join('')}
+          `).join('')}
+        </div>
       </div>
-
-      <div class="stats-cards" style="padding-bottom: 3rem;">
-        <div class="stat-card">
-          <span class="stat-card-number">${countries.length}</span>
-          <span class="stat-card-label">Países distintos</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-card-number">${countries[0]?.country || '-'}</span>
-          <span class="stat-card-label">País dominante</span>
-        </div>
-        <div class="stat-card">
-          <span class="stat-card-number">${countries[0]?.wins || 0}</span>
-          <span class="stat-card-label">Máximo de victorias</span>
-        </div>
+      
+      <div style="margin-top: 3rem; text-align: center; color: var(--color-muted); font-size: 0.85rem; padding-bottom: 3rem;">
+        * Haz clic en cualquier país para ver su lista detallada de ganadores.
       </div>
     </div>
   `;
