@@ -1,4 +1,4 @@
-# Balon de oro Tracker 🏆
+# Balon de oro Tracker
 
 Historical Balón de Oro tracker. Vanilla HTML + CSS + JS frontend, no frameworks.
 

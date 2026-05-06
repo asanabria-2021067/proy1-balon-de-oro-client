@@ -188,7 +188,6 @@ export function renderPlayerModal(player, ceremonies, onSubmit) {
     form.onsubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(form);
-        // Si no hay año seleccionado, borrar los campos de nominación del formData
         if (!formData.get('nominationYear')) {
             formData.delete('nominationYear');
             formData.delete('nominationRank');
@@ -219,7 +218,6 @@ export function renderPagination(pagination, onPageChange, onLimitChange) {
                 </button>
     `;
 
-    // Lógica para mostrar números de página
     const maxVisiblePages = 5;
     let startPage = Math.max(1, page - Math.floor(maxVisiblePages / 2));
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);

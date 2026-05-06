@@ -28,7 +28,6 @@ export async function handleYearChange(year) {
 }
 
 export function handleCardClick(nominationId) {
-    // Rating feature removed
 }
 
 export async function initCeremoniesView() {

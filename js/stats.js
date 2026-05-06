@@ -87,14 +87,12 @@ async function showCountryWinners(country) {
   const listContainer = document.getElementById('country-winners-list');
 
   try {
-    // ✅ CACHE (solo 1 request en toda la app)
     if (!ceremoniesCache) {
       ceremoniesCache = await getCeremonies();
     }
 
     const ceremonies = ceremoniesCache;
 
-    // ✅ FILTRAR GANADORES POR PAÍS (SIN MÁS REQUESTS)
     const winnersMap = {};
 
     ceremonies.forEach(c => {
@@ -134,8 +132,7 @@ async function showCountryWinners(country) {
               <h4 class="mini-player-card__name">${p.name}</h4>
               <p class="mini-player-card__club">${p.club || 'N/A'}</p>
               <p class="mini-player-card__years">
-                ${p.years.length} ${p.years.length === 1 ? 'vez' : 'veces'}
-                (${p.years.sort((a, b) => a - b).join(', ')})
+                ${p.years.length} ${p.years.length === 1 ? 'Balón de Oro' : 'Balones de Oro'} - ${p.years.sort((a, b) => a - b).join(', ')}
               </p>
             </div>
           </div>
